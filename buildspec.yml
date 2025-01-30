@@ -27,8 +27,6 @@ phases:
       - echo "Build complete"
       - echo "Creating build artifacts..."
       - mkdir -p extracted_files
-      - echo "Build completed with version $$VERSION"
-      - if [ -f version.txt ]; then cat version.txt; else echo "version.txt not found"; fi
       - echo "Cleaning up..."
       - rm -rf extracted_files  # Clean up if necessary
 
