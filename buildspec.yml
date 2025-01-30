@@ -3,26 +3,24 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 18  # Use Node.js 18 for compatibility with npm v10.9.0
     commands:
       - echo "Installing dependencies..."
-      - npm install
-      - apt-get install -y unzip
+      - npm install  # Install dependencies
+      - apt-get install -y unzip  # Install unzip tool if needed
 
   build:
     commands:
       - echo "Running tests..."
-      - npm run test
+      - npm run test || { echo "Tests failed"; exit 1; }
       - echo "Downloading source artifact from S3..."
       - FILE_NAME=$(aws s3 ls s3://codepipeline-ap-south-1-617832984535/copy-node-app/SourceArti/ --recursive | sort | tail -n 1 | awk '{print $4}')
+      - if [ -z "$FILE_NAME" ]; then echo "No files found in S3 path"; exit 1; fi
       - echo "Latest file is $FILE_NAME"
       - aws s3 cp s3://codepipeline-ap-south-1-617832984535/$FILE_NAME ./myapp.zip
       - echo "Unzipping the source artifact..."
       - unzip myapp.zip -d extracted_files/
       - echo "Build process..."
-      - |
-        VERSION=$(date +%Y%m%d%H%M%S)  # Use '|' to handle multi-line scripts properly in YAML
-        echo "Version: $$VERSION" > version.txt  # Use $$ to escape the variable correctly
 
   post_build:
     commands:
@@ -30,11 +28,12 @@ phases:
       - echo "Creating build artifacts..."
       - mkdir -p extracted_files
       - echo "Build completed with version $$VERSION"
-      - cat version.txt
+      - if [ -f version.txt ]; then cat version.txt; else echo "version.txt not found"; fi
+      - echo "Cleaning up..."
+      - rm -rf extracted_files  # Clean up if necessary
 
 artifacts:
   files:
-    - '**/*'
-    - version.txt
-  base-directory: extracted_files
-  discard-paths: yes
+    - '**/*'  # Include all files in the build
+  base-directory: extracted_files  # Set the base directory for artifacts
+  discard-paths: yes  # Flatten the file structure (set to 'no' if you want to preserve directory structure)
