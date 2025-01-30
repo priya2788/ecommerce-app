@@ -19,7 +19,7 @@ phases:
       - echo "Latest file is $FILE_NAME"
       - aws s3 cp s3://codepipeline-ap-south-1-617832984535/$FILE_NAME ./myapp.zip
       - echo "Unzipping the source artifact..."
-      - unzip myapp.zip -d extracted_files/
+      - unzip myapp.zip -d extracted_files1/
       - echo "Build process..."
 
   post_build:
@@ -33,5 +33,5 @@ phases:
 artifacts:
   files:
     - '**/*'  # Include all files in the build
-  base-directory: extracted_files  # Set the base directory for artifacts
+  base-directory: extracted_files1  # Set the base directory for artifacts
   discard-paths: yes  # Flatten the file structure (set to 'no' if you want to preserve directory structure)
