@@ -8,12 +8,10 @@ phases:
       - echo "Installing dependencies..."
       - npm install  # Install dependencies
       - apt-get install -y unzip  # Install unzip tool if needed
-
   build:
     commands:
       - echo "Downloading source artifact from S3..."
       - FILE_NAME=$(aws s3 ls s3://codepipeline-ap-south-1-617832984535/ecommerce-app/SourceArti/ --recursive | sort | tail -n 1 | awk '{print $4}')
-      - if [ -z "$FILE_NAME" ]; then echo "No files found in S3 path"; exit 1; fi
       - echo "Latest file is $FILE_NAME"
       - aws s3 cp s3://codepipeline-ap-south-1-617832984535/$FILE_NAME ./myapp.zip
       - echo "Unzipping the source artifact..."
