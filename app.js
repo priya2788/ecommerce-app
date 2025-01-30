@@ -5,7 +5,7 @@ const PORT = process.env.PORT ||  80;
 
 // Simulate a database with an array of products
 let products = [
-  { id: 1, name: 'Laptop', price: 999.99, image: 'laptop.jpg' },
+  { id: 1, name: 'Laptop', price: 999.89, image: 'laptop.jpg' },
   { id: 2, name: 'Smartphone', price: 699.99, image: 'smartphone.jpg' },
   { id: 3, name: 'Headphones', price: 199.99, image: 'headphones.jpg' }
 ];
