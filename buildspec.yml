@@ -3,11 +3,11 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 18  # Use Node.js 18 for compatibility with npm v10.9.0
     commands:
       - echo "Installing dependencies..."
-      - npm install
-      - apt-get install -y unzip
+      - npm install  # Install dependencies
+      - apt-get install -y unzip  # Install unzip tool if needed
 
   build:
     commands:
