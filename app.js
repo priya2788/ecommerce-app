@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));  // This is where you specify the location of your views
 
 // Home route to display products
 app.get('/', (req, res) => {
