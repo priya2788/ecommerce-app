@@ -35,4 +35,5 @@ artifacts:
     - '**/*'
     - version.txt
   base-directory: extracted_files1
+  discard-paths: no
   discard-paths: yes
