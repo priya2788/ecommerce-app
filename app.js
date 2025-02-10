@@ -15,14 +15,17 @@ let cart = [];
 
 // Serve static files like images, CSS, etc.
 app.use(express.static(path.join(__dirname, 'public')));
+let viewsPath;
+if (process.env.NODE_ENV === 'production') {
+  viewsPath = '/var/app/current/views';  // Elastic Beanstalk default path
+} else {
+  viewsPath = path.join(__dirname, 'views');  // Local development path
+}
 
+// Set the views folder path dynamically
+app.set('views', viewsPath);
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
-if (process.env.NODE_ENV === 'production') {
-  app.set('views', path.join(__dirname, 'views'));
-} else {
-  app.set('views', path.join(__dirname, 'views'));
-}
 
 // Home route to display products
 app.get('/', (req, res) => {
